@@ -25,13 +25,14 @@ public class App
     ActorDao actorDao = new ActorDao();
     CategoryDao categoryDao = new CategoryDao();
     public static void main( String[] args ) // Транзакционность заключена в DAO. Так же установлены cascadeType.ALL
+                                            // дабы сохранились все созависимые сущности или не сохранилось ни одной
     {
         App app = new App();
 //        app.createCustomer();
-//        app.returnFilm();
+        app.returnFilm();
 //        app.customerGetFilm();
 
-        app.createNewFilm();
+//        app.createNewFilm();
     }
 
     public void createNewFilm() {
@@ -95,7 +96,7 @@ public class App
 
 
     public void returnFilm() {
-        Rental rental = rentalDao.getRentalById(15191);// 15191
+        Rental rental = rentalDao.getRentalById(16052);// 15191
         rental.setReturnDate(LocalDateTime.now());
         rentalDao.update(rental);
     }

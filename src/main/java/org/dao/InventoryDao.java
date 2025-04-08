@@ -23,15 +23,18 @@ public class InventoryDao {
     public void save(Inventory inventory) {
         Transaction transaction = null;
         try (Session session = FACTORY.openSession()) {
-            transaction = session.beginTransaction();
-            session.merge(inventory);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            try {
+                transaction = session.beginTransaction();
+                session.merge(inventory);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
             }
         }
     }
+
 
 
     public Integer getAvailableFilm() {

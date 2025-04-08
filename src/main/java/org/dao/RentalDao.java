@@ -22,12 +22,14 @@ public class RentalDao {
     public void update(Rental rental) {
         Transaction transaction = null;
         try (Session session = FACTORY.openSession()) {
-            transaction = session.beginTransaction();
-            session.merge(rental);
-            transaction.commit();
-        }catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            try {
+                transaction = session.beginTransaction();
+                session.merge(rental);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
             }
         }
     }

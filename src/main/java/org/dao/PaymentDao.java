@@ -11,12 +11,14 @@ public class PaymentDao {
     public void save(Payment payment) {
         Transaction transaction = null;
         try (Session session = FACTORY.openSession()) {
-            transaction = session.beginTransaction();
-            session.merge(payment);
-            transaction.commit();
-        }catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            try {
+                transaction = session.beginTransaction();
+                session.merge(payment);
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
             }
         }
     }

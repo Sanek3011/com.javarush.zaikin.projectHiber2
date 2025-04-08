@@ -12,15 +12,18 @@ public class CustomerDao {
     public Customer save(Customer customer) {
         Transaction transaction = null;
         try (Session session = FACTORY.openSession()) {
-            transaction = session.beginTransaction();
-            session.merge(customer);
-            transaction.commit();
-            return customer;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            try {
+                transaction = session.beginTransaction();
+                session.merge(customer);
+                transaction.commit();
+                return customer;
+            }catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+        }
             return null;
+
         }
     }
     public Customer getCustomerById(Short id) {
